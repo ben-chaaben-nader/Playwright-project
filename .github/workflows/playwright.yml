@@ -1,0 +1,47 @@
+# GitHub Actions workflow for running Playwright tests
+name: Playwright Tests
+
+# Trigger the workflow on push or pull request to main or master branches
+on:
+  push:
+    branches: [main, master]   # Runs on any push to the main or master branch
+  pull_request:
+    branches: [main, master]   # Runs on any PR targeting the main or master branch
+
+jobs:
+  test:
+    # Timeout for the entire job is set to 60 minutes
+    timeout-minutes: 60
+    runs-on: ubuntu-latest     # Uses the latest Ubuntu runner provided by GitHub
+
+    steps:
+      # Step 1: Checkout the code from the repository
+      - name: 📝 Checkout repository
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Node.js environment
+      - name: ⚙️ Set up Node.js 16.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      # Step 3: Install all project dependencies using npm
+      - name: 📦 Install dependencies
+        run: npm ci   # Clean install to ensure fresh node_modules and package-lock.json
+
+      # Step 4: Install Playwright browsers and dependencies
+      - name: 🌐 Install Playwright Browsers
+        run: npx playwright install --with-deps
+
+      # Step 5: Execute the Playwright test suite
+      - name: 🚀 Run Playwright tests
+        run: npx playwright test
+
+      # Step 6: Upload Playwright test report as an artifact
+      - name: 📤 Upload Playwright Report
+        uses: actions/upload-artifact@v3
+        if: always()  # Upload even if tests fail, for debugging
+        with:
+          name: playwright-report           # Artifact name in GitHub Actions
+          path: playwright-report/          # Path where the report is generated
+          retention-days: 30                # Retain for 30 days
