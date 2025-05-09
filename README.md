@@ -1,4 +1,4 @@
-Playwright Page Object Model (POM) Project
+Playwright Project
 
 📌 Overview
 
@@ -12,7 +12,7 @@ Make sure you have Node.js (>= 16) installed. Then, run the following commands:
 git clone <repository-url>
 
 # Navigate to the project directory
-cd Playwright_PageObjectModel
+cd Playwright_Project
 
 # Install dependencies
 npm install
@@ -22,7 +22,7 @@ npx playwright install
 
 📂 Project Structure
 
-Playwright_PageObjectModel/
+Playwright_Project/
 ├── .github/workflows
 │   └── playwright.yml
 ├── .idea
